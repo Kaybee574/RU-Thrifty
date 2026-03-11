@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- this external style sheet is responsible for styling my header, the one with the links -->
+    <!-- <link rel="stylesheet" href="mainCss.css" />
+    <link rel="stylesheet" href="GlobalHeader.css" /> -->
+
+    <style>
+      /* CSS Variables for color palette  */
+      :root {
+        --primary: #ffaa50;
+        --secondary: #eacdf6;
+        --accent: #ff8c69;
+        --dark: #2b2b2b;
+        --light: #f9f9f9;
+        --purple-bg: rgb(241, 189, 241);
+        --white: #ffffff;
+        --success: #4caf50;
+        --text-muted: #666666;
+      }
+
+      /* Reset & Base */
+      /*This puts everything to the "very top" and makes sure there is no overflow of elements*/
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: var(--purple-bg);
+        color: var(--dark);
+        line-height: 1.6;
+      }
+
+      /* Header navigation styling */
+      /* .myFoot {
+        background-color: var(--white);
+        border-bottom: 2px solid var(--secondary);
+        padding: 15px 30px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+      }*/
+
+      /* Bottom navigation links styling */
+      .bottom {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 10px;
+      }
+
+      .links a {
+        display: inline-block;
+        padding: 8px 12px;
+        text-decoration: none;
+        color: var(--dark);
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        border-bottom: 3px solid transparent;
+        transition:
+          color 0.2s,
+          border-color 0.2s;
+      }
+
+      .links a:hover {
+        color: var(--primary);
+        border-bottom-color: var(--primary);
+      }
+
+      /* Page header */
+      h1 {
+        text-align: center;
+        margin: 40px 0;
+        font-size: 2.5rem;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+        color: var(--primary);
+      }
+
+      /* Main content styling */
+      main {
+        max-width: 100%;
+        margin: 0 auto;
+        box-sizing: border-box;
+        padding-bottom: 40px;
+      }
+
+      /* Categories container styling */
+      .categories-container {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 50px;
+      }
+
+      .Categories {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+      }
+
+      /* Category cards styling */
+      .category-card {
+        flex: 0 1 auto;
+        min-width: 300px;
+        max-width: 450px;
+        background-color: var(--white);
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition:
+          transform 0.2s,
+          box-shadow 0.2s,
+          background-color 0.2s;
+        text-align: center;
+        text-decoration: none;
+        color: var(--dark);
+        border: 1px solid var(--secondary);
+      }
+
+      .category-card:hover {
+        background-color: var(--secondary);
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      }
+
+      .category-card img {
+        width: 100%;
+        height: auto;
+        max-width: 450px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        aspect-ratio: 1/1;
+        background: #eee;
+      }
+
+      .category-card p {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-top: 10px;
+        color: var(--dark);
+      }
+
+      /* Putting the cards of the pictures in media queries for responsive design */
+      @media screen and (max-width: 1200px) {
+        .category-card img {
+          height: 400px;
+          width: 400px;
+        }
+      }
+
+      @media screen and (max-width: 900px) {
+        .category-card img {
+          height: 300px;
+          width: 300px;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        h1 {
+          font-size: 2rem;
+          margin: 30px 0;
+        }
+        .category-card {
+          min-width: 250px;
+        }
+        .category-card p {
+          font-size: 1rem;
+        }
+      }
+
+      @media screen and (max-width: 600px) {
+        .category-card img {
+          height: 250px;
+          width: 250px;
+        }
+        .Categories {
+          flex-direction: column;
+          align-items: center;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        main {
+          padding: 0 15px 40px 15px;
+        }
+        h1 {
+          font-size: 1.8rem;
+          margin: 20px 0;
+        }
+        .Categories {
+          gap: 20px;
+        }
+        .category-card {
+          min-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- <header>
+        <div class="myFoot">
+          <div class="bottom">
+            <section class="links">
+              <a href="home.php" target="mainFrame">Home</a>
+            </section>
+            <section class="links">
+              <a href="AboutUs.html" target="mainFrame">About Us</a>
+            </section>
+            <section class="links">
+              <a href="sell.html" target="mainFrame">Sell</a>
+            </section>
+            <section class="links">
+              <a href="Categories.html" target="mainFrame">Categories</a>
+            </section>
+            <section class="links">
+              <a href="Explore.html" target="mainFrame">Explore</a>
+            </section>
+            <section class="links">
+              <a href="Reviews.html" target="mainFrame">User reviews</a>
+            </section>
+            <section class="links">
+              <a href="SignIn.html" target="mainFrame">Sign In</a>
+            </section>
+            <section class="links">
+              <a href="SignUp.html" target="mainFrame">Sign Up</a>
+            </section>
+          </div>
+        </div>
+      </header> -->
+
+      <h1>How Can We Help You Today?</h1>
+
+      <div class="categories-container">
+        <section class="Categories">
+          <a href="category_pictures/textbooks.html" class="category-card">
+            <img src="category_pictures/Textbooks.jpg" alt="Textbooks" />
+            <p>Textbooks & Academic Materials</p>
+          </a>
+
+          <a href="category_pictures/Electronics.html" class="category-card">
+            <img src="category_pictures/Electronics.jpg" alt="Electronics" />
+            <p>Electronics</p>
+          </a>
+        </section>
+
+        <section class="Categories">
+          <a href="category_pictures/Fashion.html" class="category-card">
+            <img src="category_pictures/Fashion.jpg" alt="Fashion" />
+            <p>Fashion</p>
+          </a>
+
+          <a href="category_pictures/Cosmetics.html" class="category-card">
+            <img src="category_pictures/Cosmetics.jpg" alt="Cosmetics" />
+            <p>Cosmetics</p>
+          </a>
+        </section>
+
+        <section class="Categories">
+          <a href="category_pictures/Furniture.html" class="category-card">
+            <img src="category_pictures/Furniture.jpg" alt="Furniture" />
+            <p>Res Essentials & Furniture</p>
+          </a>
+
+          <a href="category_pictures/Others.html" class="category-card">
+            <img src="category_pictures/Others.jpg" alt="Other items" />
+            <p>Other</p>
+          </a>
+        </section>
+      </div>
+    </main>
+    <script src="index.js" defer></script>
+  </body>
+</html>
