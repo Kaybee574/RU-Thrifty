@@ -4,10 +4,9 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sign Up - RU Thrifty</title>
-
     <link rel="stylesheet" href="style.css" />
-
     <style>
+      /* Sign Up Page body styling */
       body {
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
         background-color: var(--purple-bg);
@@ -158,6 +157,22 @@
       /* Form rows styling*/
       .formrow {
         margin-bottom: 1rem;
+        position: relative;
+      }
+      .formrow small {
+        color: red;
+        display: none;
+        font-size: 0.8rem;
+        margin-top: 4px;
+      }
+      .formrow.error input {
+        border-color: red;
+      }
+      .formrow.error small {
+        display: block;
+      }
+      .formrow.success input {
+        border-color: green;
       }
 
       /* Terms checkbox styling */
@@ -177,7 +192,7 @@
         text-decoration: underline;
       }
 
-      /* Responsive design for sign up page*/
+      /* Responsive design for sign up page */
       @media (max-width: 768px) {
         .signup-container {
           margin: 1rem;
@@ -198,7 +213,12 @@
         <p class="site-tagline">Join the RU Thrifty community today!</p>
       </header>
       <!-- Sign up form -->
-      <form action="register.php" method="post" class="flex-form signup-form">
+      <form
+        action="register.php"
+        method="post"
+        class="flex-form signup-form"
+        id="signupForm"
+      >
         <div class="formrow">
           <label for="name">Full Name:</label><br />
           <input
@@ -208,6 +228,7 @@
             placeholder="Enter your full name"
             required
           />
+          <small>Name is required</small>
         </div>
         <br />
         <div class="formrow">
@@ -233,8 +254,9 @@
               type="email"
               id="email"
               name="email"
-              placeholder="username@campus.ru.ac.za"
+              placeholder="studentnumber@campus.ru.ac.za"
             />
+            <small>Email is required</small>
           </div>
           <br />
 
@@ -246,6 +268,7 @@
               name="contact_number"
               placeholder="081 000 0000"
             />
+            <small>Contact number is required</small>
           </div>
           <br />
         </div>
@@ -259,6 +282,7 @@
               name="student_number"
               placeholder="e.g. g23x0000"
             />
+            <small>Student number is required</small>
           </div>
           <br />
         </div>
@@ -272,6 +296,7 @@
             placeholder="Your address"
             required
           />
+          <small>Address is required</small>
         </div>
         <br />
 
@@ -302,6 +327,10 @@
               />
             </button>
           </div>
+          <small
+            >Password must be 8-16 characters, contain at least one uppercase
+            letter and one number</small
+          >
         </div>
 
         <div class="formrow">
@@ -326,6 +355,7 @@
               />
             </button>
           </div>
+          <small>Passwords do not match</small>
         </div>
 
         <div class="formrow" style="display: flex; align-items: center">
@@ -406,6 +436,7 @@
         }
       }
     </script>
+    <!-- Link to main JavaScript file -->
     <script src="index.js" defer></script>
   </body>
 </html>

@@ -15,10 +15,6 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
     />
-    <!-- <style>
-       .footer-social .social-list {
-      } 
-    </style> -->
   </head>
   <body>
     <!-- Page Header -->
@@ -48,8 +44,6 @@
 
         <li><a href="Categories.html" target="mainFrame">Categories</a></li>
 
-        <!-- <li><a href="sell.html" target="mainFrame">Sell</a></li> -->
-
         <!-- Dropdown Menu -->
         <li class="dropdown">
           <a href="#" class="dropdown-toggle">
@@ -62,8 +56,6 @@
         </li>
 
         <li><a href="Reviews.html" target="mainFrame">Reviews</a></li>
-
-        <!-- <li><a href="Watchlist.html" target="mainFrame">Watchlist</a></li> -->
 
         <!-- Account dropdown -->
         <li class="dropdown">
@@ -174,39 +166,6 @@
                 ></a>
                 Instagram
               </li>
-              <!-- <li>
-                <a
-                  href="https://www.facebook.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="fa fa-facebook"
-                  aria-label="Facebook"
-                  ></a
-                >
-                Facebook
-              </li>
-              <li>
-                <a
-                  href="https://www.twitter.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="fa fa-twitter"
-                  aria-label="Twitter"
-                  ></a
-                >
-                Twitter
-              </li>
-              <li>
-                <a
-                  href="https://www.youtube.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="fa fa-youtube"
-                  aria-label="YouTube"
-                  ></a
-                >
-                YouTube
-              </li> -->
             </ul>
           </section>
         </div>
@@ -215,10 +174,7 @@
         <div class="footer-bottom">
           <section class="footer-brand">
             <h4>RU Thrifty.</h4>
-            <p>
-              <strong>Copyright &copy; 2026 RU Thrifty.</strong><br />All rights
-              reserved.
-            </p>
+            <p><strong>Copyright &copy; 2026 RU Thrifty.</strong><br /></p>
             <p style="margin-top: 10px; font-size: 0.8rem; color: #aaa">
               RU Thrifty<br />
               Makhanda, Eastern Cape, South Africa
@@ -226,14 +182,47 @@
           </section>
         </div>
       </div>
+      <!-- Browser Info Section -->
+      <div style="text-align: center; margin: 20px">
+        <button
+          id="showBrowserInfo"
+          class="signin-button"
+          style="
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--primary);
+            cursor: pointer;
+            font-size: 1rem;
+          "
+        >
+          Show Browser Info
+        </button>
+      </div>
+      <div
+        id="browserInfo"
+        style="
+          display: none;
+          background: var(--white);
+          padding: 15px;
+          margin: 20px auto;
+          max-width: 600px;
+          border-radius: 8px;
+          border: 1px solid var(--secondary);
+        "
+      ></div>
     </footer>
 
     <!-- Resize iframe to its content height -->
+    <!-- I struggled with the sizing of my iframe when it loads into the main section of the index file -->
+    <!-- I refered this page https://www.geeksforgeeks.org/javascript/resize-an-iframe-based-on-the-content/ -->
     <script>
       function resizeIframe(frame) {
         frame.style.height =
           frame.contentWindow.document.body.scrollHeight + "px";
       }
     </script>
+    <!-- Link to main JavaScript file -->
+    <script src="index.js" defer></script>
   </body>
 </html>

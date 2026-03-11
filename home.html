@@ -364,6 +364,92 @@
         }
       }
 
+      /* Slideshow styling */
+      .slideshow-container {
+        max-width: 800px;
+        position: relative;
+        margin: 40px auto;
+      }
+      .slide {
+        display: none;
+      }
+      .prev,
+      .next {
+        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        width: auto;
+        padding: 16px;
+        margin-top: -22px;
+        color: white;
+        font-weight: bold;
+        font-size: 18px;
+        transition: 0.6s ease;
+        border-radius: 0 3px 3px 0;
+        user-select: none;
+        background-color: rgba(0, 0, 0, 0.3);
+      }
+      .next {
+        right: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .prev:hover,
+      .next:hover {
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+      .text {
+        color: #f2f2f2;
+        font-size: 15px;
+        padding: 8px 12px;
+        position: absolute;
+        bottom: 8px;
+        width: 100%;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      .dot {
+        cursor: pointer;
+        height: 15px;
+        width: 15px;
+        margin: 0 2px;
+        background-color: #bbb;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.6s ease;
+      }
+      .active,
+      .dot:hover {
+        background-color: #717171;
+      }
+      .fade {
+        animation-name: fade;
+        animation-duration: 1.5s;
+      }
+      @keyframes fade {
+        from {
+          opacity: 0.4;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+
+      /* Toggle button for columns styling */
+      #toggleColumns {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+      }
+      #toggleColumns:hover {
+        background-color: var(--accent);
+      }
+
       /*  Footer styling  */
       .page-footer {
         background-color: var(--dark);
@@ -453,6 +539,7 @@
               bookstores.
             </p>
             <!-- Add link that filters categories -->
+            <!-- Implement after server-side development -->
             <a href="Categories.html" target="mainFrame" class="card-link"
               >Browse Books</a
             >
@@ -554,21 +641,29 @@
       </div>
     </section>
 
+    <!-- Toggle button for multi-column layout -->
+    <button
+      id="toggleColumns"
+      style="
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background-color: var(--primary);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+      "
+    >
+      Switch to 1 Column
+    </button>
+
     <!-- Instagram reels about the inspiration behind our website -->
     <section class="reels-section" id="reels">
       <h2>Watch Our Reels</h2>
       <div class="reels-container">
         <figure class="reel-figure">
           <!-- Instagram reel links -->
-          <!-- <iframe
-            src="https://www.instagram.com/reel/DHyfAkONjN0/embed"
-            width="400"
-            height="550"
-            frameborder="0"
-            scrolling="no"
-            allowtransparency="true"
-            title="Instagram reel about RU Thrifty origins"
-          ></iframe> -->
           <!-- Implementation of Sir's suggestion of thumbnails -->
           <a
             href="https://www.instagram.com/reel/DHyfAkONjN0/"
@@ -583,23 +678,11 @@
               loading="lazy"
             />
           </a>
-          <!-- frameborder="0"
-            scrolling="no"
-            allowtransparency="true" -->
 
           <figcaption>RU Thrifty Origin Story &mdash; Part 1</figcaption>
         </figure>
 
         <figure class="reel-figure">
-          <!-- <iframe
-            src="https://www.instagram.com/reel/DFsXmMkITv1/embed"
-            width="400"
-            height="550"
-            frameborder="0"
-            scrolling="no"
-            allowtransparency="true"
-            title="Instagram reel about RU Thrifty community"
-          ></iframe> -->
           <a
             href="https://www.instagram.com/reel/DFsXmMkITv1/"
             target="_blank"
@@ -617,5 +700,34 @@
         </figure>
       </div>
     </section>
+
+    <!-- Slideshow Gallery -->
+    <!-- I struggled with implementing this, I refered to https://www.w3schools.com/howto/howto_js_slideshow.asp for help -->
+    <section class="slideshow-section">
+      <h2 style="text-align: center; color: var(--primary)">Featured Items</h2>
+      <div class="slideshow-container">
+        <div class="slide fade">
+          <img src="magazine_pictures/emihlesshops.jpg" style="width: 100%" />
+          <div class="text">Emihle's Book Store</div>
+        </div>
+        <div class="slide fade">
+          <img src="magazine_pictures/newarrivals.jpg" style="width: 100%" />
+          <div class="text">Fresh Arrivals</div>
+        </div>
+        <div class="slide fade">
+          <img src="magazine_pictures/calculator.jpg" style="width: 100%" />
+          <div class="text">Casio Calculator</div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+      </div>
+      <div style="text-align: center">
+        <span class="dot" onclick="currentSlide(1)"></span>
+        <span class="dot" onclick="currentSlide(2)"></span>
+        <span class="dot" onclick="currentSlide(3)"></span>
+      </div>
+    </section>
+    <!-- Link to main JavaScript file -->
+    <script src="index.js" defer></script>
   </body>
 </html>

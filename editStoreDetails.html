@@ -229,10 +229,10 @@
           window.location.href = "sellerDashboard.html";
         });
 
-      // Simple client-side validation and redirect on success
+      // Validation and redirect on success
       document.querySelector("form").addEventListener("submit", function (e) {
         e.preventDefault();
-        // Basic validation (check if any field is empty)
+        // Check if any field is empty
         const inputs = document.querySelectorAll("input[required]");
         let isValid = true;
         inputs.forEach((input) => {
@@ -252,6 +252,7 @@
         }
       });
     </script>
+    <!-- Link to main Javascript File -->
     <script defer src="index.js"></script>
   </body>
 </html>
