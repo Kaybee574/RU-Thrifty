@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>RU Thrifty &copy; - Student Marketplace</title>
+
+    <!-- Absolute URL link to External CSS file -->
+    <link rel="stylesheet" href="style.css" />
+
+    <!-- Absolute URL link to Social Media icons -->
+    <!-- Creative Addition, refered to https://www.w3schools.com/icons/fontawesome_icons_intro.asp -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <!-- <style>
+       .footer-social .social-list {
+      } 
+    </style> -->
+  </head>
+  <body>
+    <!-- Page Header -->
+    <header id="header1">
+      <h1 class="site-title">RU Thrifty.</h1>
+      <p class="site-tagline">By Students, For Students</p>
+    </header>
+
+    <!-- Page Navigation -->
+    <!-- Refered to https://www.w3schools.com/tags/tag_nav.asp -->
+    <nav class="main-nav" aria-label="Main navigation">
+      <!-- Mobile toggle button -->
+      <button
+        class="nav-toggle"
+        id="navToggle"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+        aria-controls="navMenu"
+      >
+        Menu
+      </button>
+
+      <ul class="nav-menu" id="navMenu">
+        <!-- Relative URL links to webiste pages -->
+        <li><a href="home.html" target="mainFrame" class="active">Home</a></li>
+        <li><a href="Explore.html" target="mainFrame">Explore</a></li>
+
+        <li><a href="Categories.html" target="mainFrame">Categories</a></li>
+
+        <!-- <li><a href="sell.html" target="mainFrame">Sell</a></li> -->
+
+        <!-- Dropdown Menu -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">
+            About<span class="dropdown-arrow"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="AboutUs.html" target="mainFrame">Our Team</a></li>
+            <li><a href="ContactUs.html" target="mainFrame">Contact Us</a></li>
+          </ul>
+        </li>
+
+        <li><a href="Reviews.html" target="mainFrame">Reviews</a></li>
+
+        <!-- <li><a href="Watchlist.html" target="mainFrame">Watchlist</a></li> -->
+
+        <!-- Account dropdown -->
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">
+            Account<span class="dropdown-arrow"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="SignIn.html" target="mainFrame">Sign In</a></li>
+            <li><a href="SignUp.html" target="mainFrame">Sign Up</a></li>
+            <li>
+              <a href="forgot_password.html" target="mainFrame"
+                >Forgot Password</a
+              >
+            </li>
+          </ul>
+        </li>
+        <li>
+          <a href="Cart.html" target="mainFrame" class="cart-link">Cart</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Page Main Content -->
+    <main>
+      <div class="iframe-container">
+        <iframe
+          src="home.html"
+          name="mainFrame"
+          id="mainFrame"
+          class="myMainFrame"
+          title="Main content area"
+          frameborder="0"
+          scrolling="no"
+          onload="resizeIframe(this)"
+        ></iframe>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="footer-content">
+        <!-- Three-columns for the 3 sections -->
+        <div class="footer-main">
+          <!-- Quick Links -->
+          <nav class="short-cuts" aria-label="Footer quick links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="home.html" target="mainFrame">Home</a></li>
+              <li>
+                <a href="Categories.html" target="mainFrame">Categories</a>
+              </li>
+              <li><a href="AboutUs.html" target="mainFrame">About Us</a></li>
+              <li><a href="Explore.html" target="mainFrame">Explore</a></li>
+              <li>
+                <a href="SignUp.html" target="mainFrame">Start Selling</a>
+              </li>
+              <li>
+                <a href="ContactUs.html" target="mainFrame">Contact Us</a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Authors' Contact Details-->
+          <section class="footer-contact">
+            <address class="author-contact">
+              <h4>Authors' Contact</h4>
+              <dl>
+                <dt>Karabo Mgwenya</dt>
+                <dd>
+                  <a href="mailto:karabomgwenya@yahoo.com"
+                    >karabomgwenya@yahoo.com</a
+                  >
+                </dd>
+
+                <dt>Nigel Qongo</dt>
+                <dd>
+                  <a href="mailto:stumpkitunathi@gmail.com"
+                    >stumpkitunathi@gmail.com</a
+                  >
+                </dd>
+
+                <dt>Justin Mudimbu</dt>
+                <dd>
+                  <a href="mailto:youngx997@gmail.com">youngx997@gmail.com</a>
+                </dd>
+
+                <dt>Charmaine Chikengezha</dt>
+                <dd>
+                  <a href="mailto:chikengezhacharmaine@gmail.com"
+                    >chikengezhacharmaine@gmail.com</a
+                  >
+                </dd>
+              </dl>
+            </address>
+          </section>
+
+          <!-- Follow Us -->
+          <section class="footer-social">
+            <h4>Follow Us</h4>
+            <ul class="social-list">
+              <li>
+                <a
+                  href="https://www.instagram.com/ru.thriftyyy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fa fa-instagram"
+                  aria-label="Instagram"
+                ></a>
+                Instagram
+              </li>
+              <!-- <li>
+                <a
+                  href="https://www.facebook.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fa fa-facebook"
+                  aria-label="Facebook"
+                  ></a
+                >
+                Facebook
+              </li>
+              <li>
+                <a
+                  href="https://www.twitter.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fa fa-twitter"
+                  aria-label="Twitter"
+                  ></a
+                >
+                Twitter
+              </li>
+              <li>
+                <a
+                  href="https://www.youtube.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fa fa-youtube"
+                  aria-label="YouTube"
+                  ></a
+                >
+                YouTube
+              </li> -->
+            </ul>
+          </section>
+        </div>
+
+        <!-- Brand info and copyright -->
+        <div class="footer-bottom">
+          <section class="footer-brand">
+            <h4>RU Thrifty.</h4>
+            <p>
+              <strong>Copyright &copy; 2026 RU Thrifty.</strong><br />All rights
+              reserved.
+            </p>
+            <p style="margin-top: 10px; font-size: 0.8rem; color: #aaa">
+              RU Thrifty<br />
+              Makhanda, Eastern Cape, South Africa
+            </p>
+          </section>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Resize iframe to its content height -->
+    <script>
+      function resizeIframe(frame) {
+        frame.style.height =
+          frame.contentWindow.document.body.scrollHeight + "px";
+      }
+    </script>
+  </body>
+</html>

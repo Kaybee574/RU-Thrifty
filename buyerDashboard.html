@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Buyer Dashboard - RU Thrifty</title>
+    <!-- <link rel="stylesheet" href="mainCss.css" /> -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="dashboard-page">
+      <!--Profile Banner  -->
+      <div class="profile-banner">
+        <!-- Circular avatar  -->
+        <div
+          class="avatar-wrap"
+          onclick="document.getElementById('avatar-input').click()"
+          title="Change photo"
+        >
+          <img
+            id="dashboard-avatar"
+            src="default_user_avatars/default_user_avatar.png"
+            alt="Profile Avatar"
+          />
+          <div class="cam-badge"></div>
+          <input
+            type="file"
+            id="avatar-input"
+            style="display: none"
+            accept="image/*"
+          />
+        </div>
+
+        <!-- Username and student number -->
+        <div class="banner-info">
+          <h2>Buhle Mokoena</h2>
+          <p><strong>Student Number:</strong> 23S1234</p>
+          <p><strong>Address:</strong> 7 Prince Alfred Street</p>
+          <span class="badge">Buyer Account</span>
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <div class="dashboard-body">
+        <!-- Left sidebar nav -->
+        <aside class="sidebar">
+          <nav>
+            <a href="BuyerDashboard.html" class="active">Dashboard</a>
+            <a href="Messages.html">Messages</a>
+            <a href="#orders">My Orders</a>
+            <a href="Cart.html">Cart</a>
+            <a href="edit_profile.html">Edit Profile</a>
+            <a href="logout.html" class="logout">Logout</a>
+          </nav>
+        </aside>
+
+        <!-- Right -->
+        <div class="content-grid">
+          <!-- Card 1 – Account Information -->
+          <div class="dash-card">
+            <h3>Account Information</h3>
+            <div class="info-row">
+              <span class="lbl">Full Name</span>
+              <span class="val">Buhle Mokoena</span>
+            </div>
+            <div class="info-row">
+              <span class="lbl">Student No.</span>
+              <span class="val">23S1234</span>
+            </div>
+            <div class="info-row">
+              <span class="lbl">Address</span>
+              <span class="val">7 Prince Alfred Street</span>
+            </div>
+            <div class="action-group">
+              <a href="edit_profile.html" class="btn-outline">Edit Profile</a>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="dash-card" id="orders">
+            <h3>My Orders</h3>
+            <div style="overflow-x: auto">
+              <table class="orders-table">
+                <thead>
+                  <tr>
+                    <th>Order ID</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>#1042</td>
+                    <td>02 Mar 2026</td>
+                    <td>R120.00</td>
+                    <td>
+                      <span
+                        class="status-pill"
+                        style="background: #d4edda; color: #155724"
+                        >Delivered</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#1038</td>
+                    <td>25 Feb 2026</td>
+                    <td>R85.50</td>
+                    <td>
+                      <span
+                        class="status-pill"
+                        style="background: #fff3cd; color: #856404"
+                        >Shipped</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#1031</td>
+                    <td>18 Feb 2026</td>
+                    <td>R200.00</td>
+                    <td>
+                      <span
+                        class="status-pill"
+                        style="background: #e2e3e5; color: #383d41"
+                        >Pending</span
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>#1020</td>
+                    <td>10 Feb 2026</td>
+                    <td>R45.00</td>
+                    <td>
+                      <span
+                        class="status-pill"
+                        style="background: #f8d7da; color: #721c24"
+                        >Cancelled</span
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Card 3 – Order Summary Stats -->
+          <div class="dash-card">
+            <h3>Order Summary</h3>
+            <div class="stats-row">
+              <div class="stat-item">
+                <span class="stat-label">Total Orders</span>
+                <span class="stat-val">4</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Pending Orders</span>
+                <span class="stat-val">1</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-label">Total Spent</span>
+                <span class="stat-val">R450.50</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 4 – Quick Actions -->
+          <div class="dash-card">
+            <h3>Quick Actions</h3>
+            <div class="quick-actions">
+              <a href="Explore.html" class="qa-shop"> Shop Now </a>
+              <a href="Cart.html" class="qa-cart"> View My Cart </a>
+              <a href="edit_profile.html" class="qa-edit"> Edit Profile </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      /* Avatar upload */
+      document.getElementById("avatar-input").onchange = function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append("avatar", file);
+
+        fetch("upload_avatar.php", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(
+                "Network response was not ok: " + response.statusText,
+              );
+            }
+            return response.json();
+          })
+          .then((data) => {
+            if (data.success) {
+              document.getElementById("dashboard-avatar").src = data.avatar_url;
+              const navAvatar = document.getElementById("nav-avatar");
+              if (navAvatar) navAvatar.src = data.avatar_url;
+              alert("Avatar updated successfully!");
+            } else {
+              alert("Upload failed: " + data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            alert("An error occurred during upload: " + error.message);
+          });
+      };
+    </script>
+  </body>
+</html>

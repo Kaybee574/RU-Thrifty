@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="../../GlobalHeader.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      .bottom {
+        flex: 1;
+        background-color: rgb(250, 171, 106);
+        display: flex;
+        gap: 20px;
+        justify-content: center;
+        padding: 10px;
+        font-size: x-large;
+        font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
+      }
+
+      .myFoot {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+        padding: 0;
+      }
+      .top {
+        max-width: 100%;
+        flex: 1;
+        background-color: rgb(250, 171, 106);
+        display: flex;
+        gap: 50px;
+        justify-content: center;
+        padding: 10px;
+      }
+
+      input {
+        width: 80%;
+        height: 10%;
+      }
+      .icon {
+        height: 25px;
+        width: 25px;
+      }
+      .slider img {
+        display: none;
+      }
+      img.displaySlide {
+        display: block;
+      }
+      .slider {
+        border: 1px solid black;
+        height: 80%;
+        width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+      }
+      .buttons {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        padding: 20px;
+      }
+      button {
+        font-size: 30px;
+        cursor: pointer;
+      }
+      .productDetails {
+        border: 1px solid black;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      .BookDetails {
+        border: 1px solid black;
+        padding: 5px;
+      }
+      p {
+        font-size: large;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="myFoot">
+          <!-- <div class="top">
+                    <h3>Raga</h3>
+                    <input type="text" placeholder="Looking for..." class="search-input">
+                    <button class="search-button">Go</button>
+                    <a href="Cart.html"><img class="icon" src="../../Icons/shopping-cart.png" alt="Shopping cart"></a>
+                </div> -->
+
+          <!-- <div class="bottom">
+            <section class="links">
+              <a href="../../home.html" target="mainFrame">Home</a>
+            </section>
+            <section class="links">
+              <a href="../../AboutUs.html" target="mainFrame">About Us</a>
+            </section>
+            <section class="links">
+              <a href="../../sell.html" target="mainFrame">Sell</a>
+            </section>
+            <section class="links">
+              <a href="../../Categories.html" target="mainFrame">Categories</a>
+            </section>
+            <section class="links">
+              <a href="../../Explore.html" target="mainFrame">Explore</a>
+            </section>
+            <section class="links">
+              <a href="../../Reviews.html" target="mainFrame">User reviews</a>
+            </section>
+            <section class="links">
+              <a href="../../SignIn.html" target="mainFrame">Sign In</a>
+            </section>
+            <section class="links">
+              <a href="../../SignUp.html" target="mainFrame">Sign Up</a>
+            </section>
+          </div> -->
+        </div>
+      </header>
+      <br />
+
+      <div class="slider">
+        <div class="slides">
+          <img class="slide" src="Book1.webp" />
+          <img class="slide" src="PowerRobertGreene_1.webp" />
+          <img class="slide" src="PowerRobertGreene_8.webp" />
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button class="prev" onclick="prevSlide()">Previous</button>
+        <button class="next" onclick="nextSlide()">Next</button>
+      </div>
+
+      <div class="productDetails">
+        <h3>Product Details</h3>
+      </div>
+      <br />
+      <div class="BookDetails">
+        <p>48 Laws of power physical book</p>
+        <p>
+          Name of Shop:
+          <a
+            href="\\ict.ru.ac.za\DFS\UGHomes\g23q5008\Desktop\PROJECT\Stores\Store1\Store1.html"
+            >God's Libraries</a
+          >
+        </p>
+        <p>Price: R300</p>
+      </div>
+      <script src="carousel.js"></script>
+
+      <div class="buttons">
+        <button><a href="../../Cart.html"> Add item to Cart</a></button>
+        <!--FIX THIS REFERENCING PROBLEM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+        <button><a href="../textbooks.html">Go back to Shopping </a></button>
+      </div>
+    </main>
+  </body>
+</html>
