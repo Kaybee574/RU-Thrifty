@@ -1,166 +1,133 @@
+<?php
+require_once 'config.php';
+
+// Fetch all reviews with product and buyer details
+$sql = "
+    SELECT r.*, p.title as product_title, b.full_name as buyer_name
+    FROM reviews r
+    JOIN products p ON r.product_id = p.id
+    JOIN buyers b ON r.buyer_student_number = b.student_number
+    ORDER BY r.created_at DESC
+";
+$result = $conn->query($sql);
+$reviews = $result->fetch_all(MYSQLI_ASSOC);
+?>
 <!doctype html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-
     <style>
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background-color: var(--purple-bg);
-        color: var(--dark);
-        margin: 0;
-        padding: 20px;
-        line-height: 1.6;
-      }
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--purple-bg);
+            color: var(--dark);
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
 
-      h1 {
-        display: flex;
-        justify-content: center;
-        color: var(--primary);
-        font-family: Cambria, Cochin, Georgia, Times, serif;
-        font-size: 2.5rem;
-        margin-bottom: 30px;
-      }
+        h1 {
+            display: flex;
+            justify-content: center;
+            color: var(--primary);
+            font-family: Cambria, Cochin, Georgia, Times, serif;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+        }
 
-      .myNav {
-        display: grid;
-        justify-content: center;
-        margin-bottom: 20px;
-      }
+        .tab_content {
+            border: 1px solid var(--secondary);
+            padding: 30px;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            max-width: 800px;
+            margin: 0 auto;
+        }
 
-      /* Button styling */
-      button {
-        height: auto;
-        width: 300px;
-        border-radius: 8px;
-        border: 2px solid var(--primary);
-        background-color: var(--primary);
-        color: var(--white);
-        font-size: 1.2rem;
-        font-weight: 600;
-        padding: 12px 24px;
-        cursor: pointer;
-        transition:
-          background-color 0.2s,
-          border-color 0.2s;
-        font-family: inherit;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      }
+        .review-item {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
 
-      button:hover {
-        background-color: var(--accent);
-        border-color: var(--accent);
-      }
+        .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
 
-      button a {
-        text-decoration: none;
-        color: inherit;
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
+        .review-author {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
 
-      .tab_content {
-        border: 1px solid var(--secondary);
-        padding: 30px;
-        background-color: var(--white);
-        border-radius: 12px;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        max-width: 800px;
-        margin: 0 auto;
-      }
+        .review-product {
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
 
-      .review-item {
-        margin-bottom: 20px;
-        padding: 20px;
-        background-color: var(--light);
-        border-radius: 8px;
-        border-left: 4px solid var(--primary);
-      }
+        .review-rating {
+            color: var(--primary);
+            font-weight: 600;
+        }
 
-      .review-author {
-        font-weight: bold;
-        color: var(--primary);
-        font-size: 1.2rem;
-        margin-bottom: 5px;
-      }
+        .review-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
 
-      .review-email {
-        color: var(--text-muted);
-        font-size: 0.9em;
-      }
+        .review-comment {
+            color: var(--dark);
+        }
 
-      /* Footer styling */
-      .reviews-footer {
-        margin-top: 40px;
-        text-align: center;
-        color: #ddd;
-        background-color: var(--dark);
-        padding: 20px;
-        border-top: 4px solid var(--primary);
-      }
+        .empty-message {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+        }
 
-      .reviews-footer p {
-        margin: 0;
-        font-size: 0.9rem;
-      }
+        .reviews-footer {
+            margin-top: 40px;
+            text-align: center;
+            color: #ddd;
+            background-color: var(--dark);
+            padding: 20px;
+            border-top: 4px solid var(--primary);
+        }
     </style>
-  </head>
-  <body>
+</head>
+<body>
     <main>
-      <!--This page contains the reviews from customers that have used the website-->
+        <h1>All Product Reviews</h1>
 
-      <h1>
-        Here are some reviews of some buyers/sellers who have used RU Thrifty
-      </h1>
-
-      <nav aria-label="Review actions" class="myNav">
-        <button type="button">
-          <a href="submitReview.php">Add your Own Review</a>
-        </button>
-      </nav>
-
-      <br />
-      <br />
-      <section class="tab_content">
-        <article class="review-item">
-          <header>
-            <p class="review-author">Lerato</p>
-            <p class="review-email">g******@campus.ru.ac.za</p>
-          </header>
-          <p>
-            I am Lerato and RU Thrifty really helped me reach a larger audience
-            with my donut selling business. I am really greatful of this
-            oppoturnity RU Thrifty gave me to grow my side hustle.
-          </p>
-        </article>
-
-        <article class="review-item">
-          <header>
-            <p class="review-author">Tshepo</p>
-            <p class="review-email">g******@campus.ru.ac.za</p>
-          </header>
-          <p>
-            Tshepo here and I also would recommend RU Thrifty to everyone
-            literally, i am a buyer and I there is a lot of cool shops here on
-            display.
-          </p>
-        </article>
-
-        <article class="review-item">
-          <header>
-            <p class="review-author">Your Review Could Be Here!</p>
-          </header>
-          <p>
-            Be the next person to share your experience with RU Thrifty. Click
-            the "Add your Own Review" button above.
-          </p>
-        </article>
-      </section>
+        <section class="tab_content">
+            <?php if (empty($reviews)): ?>
+                <div class="empty-message">No reviews yet. Be the first to leave a review on a product!</div>
+            <?php else: ?>
+                <?php foreach ($reviews as $review): ?>
+                    <article class="review-item">
+                        <div class="review-header">
+                            <span class="review-author"><?= htmlspecialchars($review['buyer_name']) ?></span>
+                            <span class="review-product">on <a href="product.php?id=<?= $review['product_id'] ?>" style="color: var(--primary);"><?= htmlspecialchars($review['product_title']) ?></a></span>
+                        </div>
+                        <div class="review-rating">Rating: <?= $review['rating'] ?>/5</div>
+                        <div class="review-date"><?= date('d M Y', strtotime($review['created_at'])) ?></div>
+                        <p class="review-comment"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+                    </article>
+                <?php endforeach; ?>
+            <?php endif; ?>
+        </section>
     </main>
-    <!-- Link to main Javascript File -->
     <script src="index.js" defer></script>
-  </body>
+</body>
 </html>

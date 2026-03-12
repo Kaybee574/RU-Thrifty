@@ -11,28 +11,25 @@ $success = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_number = trim($_POST['student_number'] ?? '');
     $full_name = trim($_POST['full_name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $address = trim($_POST['address'] ?? '');
     $password = $_POST['password'] ?? '';
 
-    if (empty($student_number) || empty($full_name) || empty($email) || empty($address) || empty($password)) {
+    if (empty($student_number) || empty($full_name) || empty($address) || empty($password)) {
         $error = "All fields are required.";
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = "Invalid email format.";
     } else {
-        // Check if student number or email already exists
-        $sql = "SELECT student_number FROM buyers WHERE student_number = ? OR email = ?";
+        // Check if student number already exists
+        $sql = "SELECT student_number FROM buyers WHERE student_number = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ss", $student_number, $email);
+        $stmt->bind_param("s", $student_number);
         $stmt->execute();
         $result = $stmt->get_result();
         if ($result->fetch_assoc()) {
-            $error = "Student number or email already exists.";
+            $error = "Student number already exists.";
         } else {
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO buyers (student_number, full_name, email, address, password, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
+            $sql = "INSERT INTO buyers (student_number, full_name, address, password, created_at) VALUES (?, ?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssss", $student_number, $full_name, $email, $address, $password_hash);
+            $stmt->bind_param("ssss", $student_number, $full_name, $address, $password_hash);
             if ($stmt->execute()) {
                 $success = "Buyer added successfully.";
             } else {
@@ -163,10 +160,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="formrow">
                 <label for="full_name">Full Name:</label>
                 <input type="text" id="full_name" name="full_name" value="<?= htmlspecialchars($_POST['full_name'] ?? '') ?>" required>
-            </div>
-            <div class="formrow">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($_POST['email'] ?? '') ?>" required>
             </div>
             <div class="formrow">
                 <label for="address">Address:</label>

@@ -1,3 +1,18 @@
+<?php
+require_once 'config.php';
+
+// Fetch up to 9 products from the desired stores
+$sql = "
+    SELECT p.*, s.store_name
+    FROM products p
+    JOIN stores s ON p.store_id = s.id
+    WHERE s.store_name IN ('Emihle''s Book Store', 'Khanyi''s Cosmetics', 'Ruth First tuck show', 'Extra Lessons By Okuhle', 'nokthula''s Nail polour', 'Sipho.s Pastries')
+    ORDER BY p.created_at DESC
+    LIMIT 9
+";
+$result = $conn->query($sql);
+$featured_products = $result->fetch_all(MYSQLI_ASSOC);
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -173,9 +188,7 @@
         border-radius: 12px;
         overflow: hidden;
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
-        transition:
-          transform 0.2s,
-          box-shadow 0.2s;
+        transition: transform 0.2s, box-shadow 0.2s;
       }
 
       .card:hover {
@@ -450,6 +463,76 @@
         background-color: var(--accent);
       }
 
+      /* New section for featured products */
+      .featured-section {
+        background-color: var(--light);
+        padding: 50px 20px;
+      }
+      .featured-section h2 {
+        text-align: center;
+        color: var(--primary);
+        font-family: Cambria, Cochin, Georgia, Times, serif;
+        font-size: 2.5rem;
+        margin-bottom: 30px;
+      }
+      .featured-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 25px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+      .featured-card {
+        background: var(--white);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        transition: transform 0.2s, box-shadow 0.2s;
+        text-decoration: none;
+        color: inherit;
+        display: block;
+      }
+      .featured-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+      }
+      .featured-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+      }
+      .featured-card-body {
+        padding: 15px;
+      }
+      .featured-card-body h3 {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--dark);
+        margin-bottom: 5px;
+      }
+      .featured-card-body .store {
+        font-size: 0.9rem;
+        color: var(--accent);
+        margin-bottom: 5px;
+      }
+      .featured-card-body .price {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--primary);
+      }
+
+      /* Responsive for 3 columns */
+      @media (max-width: 900px) {
+        .featured-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 600px) {
+        .featured-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
       /*  Footer styling  */
       .page-footer {
         background-color: var(--dark);
@@ -469,8 +552,7 @@
     <section class="search-bar">
       <form
         class="search-form"
-        action="Explore.php
-        "
+        action="Explore.html"
         method="get"
         role="search"
         aria-label="Search the marketplace"
@@ -495,12 +577,10 @@
 
       <!-- Links to the Sign Up and Sign In buttons -->
       <div class="log-in-buttons">
-        <a href="SignUp.php
-        " target="mainFrame" class="signup-button"
+        <a href="SignUp.php" target="mainFrame" class="signup-button"
           >Sign Up</a
         >
-        <a href="SignIn.php
-        " target="mainFrame" class="signin-button"
+        <a href="SignIn.php" target="mainFrame" class="signin-button"
           >Sign In</a
         >
       </div>
@@ -521,7 +601,7 @@
       </article>
     </section>
 
-    <!-- Page Magazine section with cards -->
+    <!-- Page Magazine section with cards (original) -->
     <section class="magazine-section" id="magazine">
       <h2>RU Thrifty Magazine</h2>
       <div class="cards-grid">
@@ -543,8 +623,7 @@
             </p>
             <!-- Add link that filters categories -->
             <!-- Implement after server-side development -->
-            <a href="Categories.php
-            " target="mainFrame" class="card-link"
+            <a href="Categories.php" target="mainFrame" class="card-link"
               >Browse Books</a
             >
           </div>
@@ -565,8 +644,7 @@
               Check out the latest gadgets and res essentials listed in the last
               24 hours. Don't miss a deal.
             </p>
-            <a href="Explore.php
-            " target="mainFrame" class="card-link"
+            <a href="Explore.php" target="mainFrame" class="card-link"
               >Explore Now</a
             >
           </div>
@@ -587,12 +665,36 @@
               The most bought item this semester. Get yours before the exams —
               Not many in Stock.
             </p>
-            <a href="Explore.php
-            " target="mainFrame" class="card-link"
+            <a href="Explore.php" target="mainFrame" class="card-link"
               >Find One</a
             >
           </div>
         </article>
+      </div>
+    </section>
+
+    <!-- Products from Shops -->
+    <section class="featured-section">
+      <h2>Shop by Store</h2>
+      <div class="featured-grid">
+        <?php if (empty($featured_products)): ?>
+          <p style="grid-column: 1/-1; text-align: center;">No products available from these shops yet.</p>
+        <?php else: ?>
+          <?php foreach ($featured_products as $product): ?>
+            <a href="product.php?id=<?= $product['id'] ?>" class="featured-card">
+              <?php if (!empty($product['image_url'])): ?>
+                <img src="<?= htmlspecialchars($product['image_url']) ?>" alt="<?= htmlspecialchars($product['title']) ?>">
+              <?php else: ?>
+                <img src="category_pictures/underConstr.png" alt="No image">
+              <?php endif; ?>
+              <div class="featured-card-body">
+                <h3><?= htmlspecialchars($product['title']) ?></h3>
+                <div class="store"><?= htmlspecialchars($product['store_name']) ?></div>
+                <div class="price">R<?= number_format($product['price'], 2) ?></div>
+              </div>
+            </a>
+          <?php endforeach; ?>
+        <?php endif; ?>
       </div>
     </section>
 

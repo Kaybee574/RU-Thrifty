@@ -144,7 +144,6 @@ $buyers = $result->fetch_all(MYSQLI_ASSOC);
                     <tr>
                         <th>Student Number</th>
                         <th>Full Name</th>
-                        <th>Email</th>
                         <th>Address</th>
                         <th>Created At</th>
                         <th>Actions</th>
@@ -155,7 +154,6 @@ $buyers = $result->fetch_all(MYSQLI_ASSOC);
                     <tr>
                         <td><?= htmlspecialchars($row['student_number']) ?></td>
                         <td><?= htmlspecialchars($row['full_name']) ?></td>
-                        <td><?= htmlspecialchars($row['email']) ?></td>
                         <td><?= htmlspecialchars($row['address']) ?></td>
                         <td><?= $row['created_at'] ?></td>
                         <td class="actions">

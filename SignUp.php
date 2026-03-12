@@ -5,7 +5,7 @@ $errors = [];
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Sanitize input using test_input function
+    // Sanitize input 
     function test_input($data) {
         $data = trim($data);
         $data = stripslashes($data);
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     $full_name = test_input($_POST['name'] ?? '');
-    $email = test_input($_POST['email'] ?? '');
+    $email = test_input($_POST['email'] ?? ''); // only used for sellers and both
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
     $user_type = $_POST['user_type'] ?? 'buyer';
@@ -24,9 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Validation rules
     if (empty($full_name)) $errors[] = "Full name is required.";
-    if (empty($email)) $errors[] = "Email is required.";
-    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) $errors[] = "Invalid email format.";
-    elseif (!preg_match('/^[gG][0-9]{2}[a-zA-Z][0-9]{4}@campus\.ru\.ac\.za$/', $email)) {
+    
+    // Email validation only for seller and both
+    if (($user_type === 'seller' || $user_type === 'both') && empty($email)) {
+        $errors[] = "Email is required for sellers.";
+    } elseif (($user_type === 'seller' || $user_type === 'both') && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors[] = "Invalid email format.";
+    } elseif (($user_type === 'seller' || $user_type === 'both') && !preg_match('/^[gG][0-9]{2}[a-zA-Z][0-9]{4}@campus\.ru\.ac\.za$/', $email)) {
         $errors[] = "Email must be a valid Rhodes student email (e.g., g23a1234@campus.ru.ac.za)";
     }
 
@@ -39,14 +43,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (empty($address)) $errors[] = "Address is required.";
 
-    // Check email uniqueness in buyers or sellers depending on type
+    // Check uniqueness for student_number (for buyers) and email (for sellers)
     if ($user_type === 'buyer' || $user_type === 'both') {
-        $sql = "SELECT student_number FROM buyers WHERE email = ?";
+        $sql = "SELECT student_number FROM buyers WHERE student_number = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("s", $student_number);
         $stmt->execute();
         $result = $stmt->get_result();
-        if ($result->fetch_assoc()) $errors[] = "Email already registered as buyer.";
+        if ($result->fetch_assoc()) $errors[] = "Student number already registered.";
         $stmt->close();
     }
     if ($user_type === 'seller' || $user_type === 'both') {
@@ -84,9 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
         if ($user_type === 'buyer') {
-            $sql = "INSERT INTO buyers (student_number, full_name, address, password, email, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
+            // Buyer
+            $sql = "INSERT INTO buyers (student_number, full_name, address, password, created_at) VALUES (?, ?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssss", $student_number, $full_name, $address, $password_hash, $email);
+            $stmt->bind_param("ssss", $student_number, $full_name, $address, $password_hash);
             $stmt->execute();
             $stmt->close();
             $_SESSION['user_id'] = $student_number;
@@ -115,10 +120,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header('Location: sellerDashboard.php'); 
             exit;
         } elseif ($user_type === 'both') {
-            // Insert as buyer
-            $sql = "INSERT INTO buyers (student_number, full_name, address, password, email, created_at) VALUES (?, ?, ?, ?, ?, NOW())";
+            // Insert as buyer 
+            $sql = "INSERT INTO buyers (student_number, full_name, address, password, created_at) VALUES (?, ?, ?, ?, NOW())";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssss", $student_number, $full_name, $address, $password_hash, $email);
+            $stmt->bind_param("ssss", $student_number, $full_name, $address, $password_hash);
             $stmt->execute();
             $stmt->close();
 
@@ -140,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             $_SESSION['user_id'] = $student_number;
             $_SESSION['user_type'] = 'both';
-            header('Location: home.php'); // temporary
+            header('Location: sellerDashboard.php'); 
             exit;
         }
     }
@@ -150,8 +155,183 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html>
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up - RU Thrifty</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Original Sign In styling (adapted for Sign Up) */
+        body {
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--purple-bg);
+            margin: 0;
+            padding: 0;
+            color: var(--dark);
+        }
+
+        input, select {
+            width: 100%;
+            max-width: 400px;
+            padding: 1rem;
+            font-size: 1.1rem;
+            box-sizing: border-box;
+            border: 1px solid var(--secondary);
+            border-radius: 8px;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus {
+            outline: 2px solid var(--primary);
+            border-color: transparent;
+        }
+
+        .myButton {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+        }
+
+        button.myButton {
+            font-size: clamp(1rem, 2vw, 1.5rem);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--white);
+            background-color: var(--primary);
+            padding: 12px 24px;
+            cursor: pointer;
+            font-family: inherit;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            min-width: 200px;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        button.myButton:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+            color: var(--white);
+        }
+
+        .signup-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background-color: var(--white);
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border: 1px solid var(--secondary);
+        }
+
+        h1 {
+            color: var(--primary);
+            text-align: center;
+            margin-bottom: 0.5rem;
+            font-family: Cambria, Cochin, Georgia, Times, serif;
+            font-size: 2.5rem;
+        }
+
+        .site-tagline {
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-footer {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .form-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .form-footer a:hover {
+            text-decoration: underline;
+        }
+
+        label {
+            color: var(--dark);
+            font-weight: 500;
+        }
+
+        .formrow {
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .formrow small {
+            color: red;
+            display: none;
+            font-size: 0.8rem;
+            margin-top: 4px;
+        }
+
+        .formrow.error input {
+            border-color: red;
+        }
+
+        .formrow.error small {
+            display: block;
+        }
+
+        .formrow.success input {
+            border-color: green;
+        }
+
+        .password-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .password-wrapper input {
+            padding-right: 40px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+        }
+
+        .toggle-password img {
+            width: 24px;
+            height: 24px;
+            opacity: 0.7;
+            transition: opacity 0.2s ease;
+        }
+
+        .toggle-password:hover img {
+            opacity: 1;
+        }
+
+        .formrow input[type="checkbox"] {
+            width: auto;
+            max-width: none;
+            margin-right: 0.5rem;
+            accent-color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .signup-container {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+            input, select {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="signup-container">
@@ -216,6 +396,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="password">Password:</label><br>
                 <div class="password-wrapper">
                     <input type="password" id="password" name="password" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('password')">
+                        <img id="password-toggle-icon" src="icons/hide.png" alt="Hide password">
+                    </button>
                 </div>
                 <small>Password must be 8-16 characters, include 1 uppercase and 1 number</small>
             </div>
@@ -224,6 +407,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <label for="confirm_password">Confirm Password:</label><br>
                 <div class="password-wrapper">
                     <input type="password" id="confirm_password" name="confirm_password" required>
+                    <button type="button" class="toggle-password" onclick="togglePasswordVisibility('confirm_password')">
+                        <img id="confirm-password-toggle-icon" src="icons/hide.png" alt="Hide password">
+                    </button>
                 </div>
                 <small>Passwords do not match</small>
             </div>
@@ -245,6 +431,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
 
     <script>
+        // Toggle password visibility
+        function togglePasswordVisibility(fieldId) {
+            const input = document.getElementById(fieldId);
+            const wrapper = input.closest('.password-wrapper');
+            const button = wrapper.querySelector('.toggle-password');
+            const img = button.querySelector('img');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                img.src = 'icons/eye.png';
+                img.alt = 'Hide password';
+            } else {
+                input.type = 'password';
+                img.src = 'icons/hide.png';
+                img.alt = 'Hide password';
+            }
+        }
+
         function toggleFields() {
             const type = document.getElementById("user_type").value;
             const buyerFields = document.getElementById("buyer_fields");

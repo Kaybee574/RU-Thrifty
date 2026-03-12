@@ -29,19 +29,17 @@ $success = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $full_name = trim($_POST['full_name'] ?? '');
-    $email = trim($_POST['email'] ?? '');
     $address = trim($_POST['address'] ?? '');
 
-    if (empty($full_name) || empty($email) || empty($address)) {
+    if (empty($full_name) || empty($address)) {
         $error = "All fields are required.";
     } else {
-        $sql = "UPDATE buyers SET full_name = ?, email = ?, address = ? WHERE student_number = ?";
+        $sql = "UPDATE buyers SET full_name = ?, address = ? WHERE student_number = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssss", $full_name, $email, $address, $student_number);
+        $stmt->bind_param("sss", $full_name, $address, $student_number);
         if ($stmt->execute()) {
             $success = "Buyer updated successfully.";
             $row['full_name'] = $full_name;
-            $row['email'] = $email;
             $row['address'] = $address;
         } else {
             $error = "Update failed.";
@@ -175,10 +173,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div class="formrow">
                 <label for="full_name">Full Name:</label>
                 <input type="text" id="full_name" name="full_name" value="<?= htmlspecialchars($row['full_name']) ?>" required>
-            </div>
-            <div class="formrow">
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($row['email']) ?>" required>
             </div>
             <div class="formrow">
                 <label for="address">Address:</label>
